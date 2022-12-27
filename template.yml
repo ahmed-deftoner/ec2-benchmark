@@ -1,0 +1,10 @@
+config:
+  target: "http://65.0.138.85"
+  phases:
+    - duration: 10
+      arrivalRate: 50
+
+scenarios:
+  - flow:
+      - get:
+          url: "/todo"

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -23,17 +24,18 @@ type Todo struct {
 const TableName = "Todos"
 
 var db dynamodb.Client
+var ctx context.Context
 
 func init() {
 	sdkConfig, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	ctx = context.TODO()
 	db = *dynamodb.NewFromConfig(sdkConfig)
 }
 
-func listItems(ctx context.Context) ([]Todo, error) {
+func listItems() ([]Todo, error) {
 	todos := make([]Todo, 0)
 	var token map[string]types.AttributeValue
 
@@ -65,7 +67,14 @@ func listItems(ctx context.Context) ([]Todo, error) {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the HomePage!")
+	log.Print("Received GET todos request")
+
+	todos, err := listItems()
+	if err != nil {
+		log.Fatal("error while getting todos")
+	}
+
+	json.NewEncoder(w).Encode(todos)
 	fmt.Println("Endpoint Hit: homePage")
 }
 

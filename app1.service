@@ -1,0 +1,11 @@
+[Unit]
+Description=404 micro-service
+
+[Service]
+Type=notify
+ExecStart=/home/ec2-user/app1/ec2-benchmark/app1
+WatchdogSec=30s
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

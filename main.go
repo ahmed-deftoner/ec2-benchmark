@@ -67,7 +67,7 @@ func listItems() ([]Todo, error) {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	log.Print("Received GET todos request")
+	log.Print("Received GET todos request on 8000")
 
 	todos, err := listItems()
 	if err != nil {
@@ -80,7 +80,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func handleRequests() {
 	http.HandleFunc("/todo", homePage)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
 func main() {
